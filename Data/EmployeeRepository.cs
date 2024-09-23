@@ -15,11 +15,11 @@ namespace EmpolyeeM.Data
             _connection = new SqlConnection(connStr);
          }
 
-        public List<EmployeeEntity> GetAllEmployeeM ()
+        public List<EmployeeEntity> GetAllEmployee ()
         {
             List<EmployeeEntity> EmployeeListEntity=new List<EmployeeEntity>();
 
-            SqlCommand cmd = new SqlCommand("GetAllEmployeeM", _connection);
+            SqlCommand cmd = new SqlCommand("GetAllEmployee", _connection);
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
 
             SqlDataAdapter dataAdapter = new SqlDataAdapter(cmd);
@@ -30,7 +30,7 @@ namespace EmpolyeeM.Data
 
             foreach (DataRow dr in dt.Rows)
             {
-                EmployeeListEntity.Add(
+                EmployeeListEntity.Add( 
                     new EmployeeEntity
                     {
                         Id = Convert.ToInt32(dr["Id"]),
