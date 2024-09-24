@@ -1,12 +1,25 @@
-﻿namespace EmpolyeeM.Models
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+
+namespace EmpolyeeM.Models
 {
     public class EmployeeEntity
     {
+        [Key]
+       
         public int Id { get; set; }
+
+        [DisplayName("First Name")]
         public string FirstName { get; set; }
+
+        [DisplayName("Last Name")]
         public string LastName { get; set; }
+
         public string Mobile { get; set; }
+
         public string Email { get; set; }
+
+        [DisplayName("Date of birth")]
         public string DOB { get; set; }
     }
 
