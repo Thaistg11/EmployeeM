@@ -1,5 +1,5 @@
-﻿using EmpolyeeM.Data;
-using EmpolyeeM.Models;
+﻿using EmployeeM.Data;
+using EmployeeM.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EmpolyeeM.Controllers
@@ -17,10 +17,15 @@ namespace EmpolyeeM.Controllers
             return View(Employee);
         }
 
+        [HttpGet]
         public ActionResult AddEmployee()
         {
-            return View();
+            return View();  // Returns the AddEmployee form view
         }
+
+
+        // POST: Employee/AddEmployee
+        [HttpPost]
         public ActionResult AddEmployee(EmployeeEntity EmployeeDetails)
         {
             try
@@ -30,17 +35,17 @@ namespace EmpolyeeM.Controllers
                     EmployeeRepository _DbEmployee = new EmployeeRepository();
                     if (_DbEmployee.AddEmployee(EmployeeDetails))
                     {
-                        return RedirectToAction("index");
+                        return RedirectToAction("Index");
                     }
                 }
 
-                return View();
+                return View(EmployeeDetails);
             }
             catch
             {
-                return View();
+                return View(EmployeeDetails);
             }
         }
-    
+
     }
 }

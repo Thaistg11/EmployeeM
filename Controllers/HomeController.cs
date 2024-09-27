@@ -1,8 +1,8 @@
-using EmpolyeeM.Models;
+using EmployeeM.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
-namespace EmpolyeeM.Controllers
+namespace EmployeeM.Controllers
 {
     public class HomeController : Controller
     {

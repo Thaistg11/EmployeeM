@@ -1,8 +1,8 @@
-﻿using EmpolyeeM.Models;
+﻿using EmployeeM.Models;
 using System.Data;
 using System.Data.SqlClient;
 using System.Reflection;
-namespace EmpolyeeM.Data
+namespace EmployeeM.Data
 {
     public class EmployeeRepository
     {
@@ -56,7 +56,7 @@ namespace EmpolyeeM.Data
             SqlCommand cmd = new SqlCommand("AddEmployee", _connection);
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
 
-            cmd.Parameters.AddWithValue("@id", Employee.Id);
+            
             cmd.Parameters.AddWithValue("@FirstName", Employee.FirstName);
             cmd.Parameters.AddWithValue("@LastName", Employee.LastName);
             cmd.Parameters.AddWithValue("@Email", Employee.Email);
@@ -68,14 +68,13 @@ namespace EmpolyeeM.Data
             int i = cmd.ExecuteNonQuery();
             _connection.Close();
 
-            if (i == 0)
+            if (i >= 1)
             {
                 return true;
             }
-            else
-            {
+            else {
                 return false;
-            }
+                }
         }
     }
 }
