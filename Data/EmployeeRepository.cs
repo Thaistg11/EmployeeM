@@ -57,22 +57,24 @@ namespace EmployeeM.Data
 
         public EmployeeEntity GetEmployeeById(int Id)
         {
-            EmployeeEntity employeeEntity = null;  // Initialize as null to handle cases where no data is found
+            EmployeeEntity EmployeeListEntity = new EmployeeEntity();
 
             SqlCommand cmd = new SqlCommand("GetEmployeeDetailsById", _connection);
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
 
-            cmd.Parameters.Add(new SqlParameter("@Id", Id));  // Use '@' for parameterized queries
+            SqlParameter param;
+
+            cmd.Parameters.Add(new SqlParameter("Id", Id));
 
             SqlDataAdapter dataAdapter = new SqlDataAdapter(cmd);
+
             DataTable dt = new DataTable();
 
             dataAdapter.Fill(dt);
 
-            if (dt.Rows.Count > 0)  // Check if there are any rows
-            {
-                DataRow dr = dt.Rows[0];  // Since ID is unique, expect only one row
-                employeeEntity = new EmployeeEntity
+            foreach (DataRow dr in dt.Rows)
+
+                EmployeeListEntity = new EmployeeEntity
                 {
                     Id = Convert.ToInt32(dr["Id"]),
                     FirstName = dr["FirstName"].ToString(),
@@ -81,9 +83,8 @@ namespace EmployeeM.Data
                     Mobile = dr["Mobile"].ToString(),
                     DOB = dr["DOB"].ToString(),
                 };
-            }
 
-            return EmployeeEntity;  // Return the populated object or null if no data was found
+            return EmployeeListEntity;
         }
 
 
