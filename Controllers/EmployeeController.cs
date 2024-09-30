@@ -82,5 +82,40 @@ namespace EmpolyeeM.Controllers
             }
         }
 
+        [HttpGet]
+        public ActionResult DeleteEmployee(int Id) 
+        {
+            EmployeeEntity Employee = new EmployeeEntity();
+
+            EmployeeRepository EmployeeRepository = new EmployeeRepository();
+
+            Employee = EmployeeRepository.GetEmployeeById(Id);
+
+            return View("DeleteEmployee", Employee);
+      
+        }
+
+        [HttpPost]
+        public IActionResult DeleteEmployeeDetails(int Id)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    EmployeeRepository _DbEmployee = new EmployeeRepository();
+                    if (_DbEmployee.DeleteEmployeeDetails(Id))
+                    {
+                        return RedirectToAction("Index");
+                    }
+                }
+
+                return View(DeleteEmployee);
+            }
+            catch
+            {
+                return View(DeleteEmployee);
+            }
+        }
+
     }
 }

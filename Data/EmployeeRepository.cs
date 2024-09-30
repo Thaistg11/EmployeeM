@@ -140,5 +140,28 @@ namespace EmployeeM.Data
                 return false;
             }
         }
+
+        public bool DeleteEmployeeDetails(int Id)
+        {
+            SqlCommand cmd = new SqlCommand("DeleteEmployeeDetails", _connection);
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@Id", Id);
+
+            _connection.Open();
+
+            int i = cmd.ExecuteNonQuery();
+            _connection.Close();
+
+            if (i > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+
     }
 }
