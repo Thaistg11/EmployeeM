@@ -64,7 +64,7 @@ namespace EmployeeM.Data
             SqlParameter param;
 
             // Adding each parameter separately
-  
+
             cmd.Parameters.Add(new SqlParameter("@FirstName", SearchString));
             cmd.Parameters.Add(new SqlParameter("@LastName", SearchString));
 
@@ -97,7 +97,7 @@ namespace EmployeeM.Data
 
 
         }
-            public EmployeeEntity GetEmployeeById(int Id)
+        public EmployeeEntity GetEmployeeById(int Id)
         {
             EmployeeEntity EmployeeListEntity = new EmployeeEntity();
 
@@ -135,7 +135,7 @@ namespace EmployeeM.Data
             SqlCommand cmd = new SqlCommand("AddEmployee", _connection);
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
 
-            
+
             cmd.Parameters.AddWithValue("@FirstName", Employee.FirstName);
             cmd.Parameters.AddWithValue("@LastName", Employee.LastName);
             cmd.Parameters.AddWithValue("@Email", Employee.Email);
@@ -153,7 +153,7 @@ namespace EmployeeM.Data
             }
             else {
                 return false;
-                }
+            }
         }
 
         public bool EditEmployeeDetails(int Id, EmployeeEntity Employee)
@@ -206,4 +206,5 @@ namespace EmployeeM.Data
 
 
     }
+
 }
