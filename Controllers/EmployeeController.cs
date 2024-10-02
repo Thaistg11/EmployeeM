@@ -6,16 +6,26 @@ namespace EmpolyeeM.Controllers
 {
     public class EmployeeController : Controller
     {
-        public IActionResult Index()
+        public IActionResult Index(string SearchString)
         {
             List<EmployeeEntity> Employee = new List<EmployeeEntity>();
-
             EmployeeRepository EmployeeRepository = new EmployeeRepository();
 
-            Employee = EmployeeRepository.GetAllEmployee();
+            // Check if any of the filter parameters are populated
+            if (!String.IsNullOrEmpty(SearchString))
+            {
+                // If any filter parameters are populated, call GetEmployeeByFilter
+                Employee = EmployeeRepository.GetEmployeeByFilter(SearchString);
+            }
+            else
+            {
+                // If none of the filter parameters are populated, call GetAllEmployee
+                Employee = EmployeeRepository.GetAllEmployee();
+            }
 
             return View(Employee);
         }
+
 
         [HttpGet]
         public IActionResult EditEmployee (int Id)

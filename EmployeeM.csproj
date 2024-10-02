@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <Content Remove="Views\Employee\Edit.cshtml" />
+    <Content Remove="Views\Employee\GetEmployeeByFilter.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -23,6 +24,11 @@
 
   <ItemGroup>
     <_ContentIncludedByDefault Remove="Views\Employee\DeleteEmployee.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Employee\GetEmployeeByFilter.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Views\Employee\GetEmployeeByFilter.cshtml" />
   </ItemGroup>
 
 </Project>

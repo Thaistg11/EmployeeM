@@ -54,8 +54,50 @@ namespace EmployeeM.Data
             }
         }
 
+        public List<EmployeeEntity> GetEmployeeByFilter(string SearchString)
+        {
+            List<EmployeeEntity> EmployeeListEntity = new List<EmployeeEntity>();
 
-        public EmployeeEntity GetEmployeeById(int Id)
+            SqlCommand cmd = new SqlCommand("GetEmployeeByFilter", _connection);
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+
+            SqlParameter param;
+
+            // Adding each parameter separately
+  
+            cmd.Parameters.Add(new SqlParameter("@FirstName", SearchString));
+            cmd.Parameters.Add(new SqlParameter("@LastName", SearchString));
+
+            SqlDataAdapter dataAdapter = new SqlDataAdapter(cmd);
+
+            DataTable dt = new DataTable();
+
+            dataAdapter.Fill(dt);
+
+            foreach (DataRow dr in dt.Rows)
+            {
+                NewMethod(EmployeeListEntity, dr);
+            }
+
+            return EmployeeListEntity;
+
+            static void NewMethod(List<EmployeeEntity> EmployeeListEntity, DataRow dr)
+            {
+                EmployeeListEntity.Add(
+                    new EmployeeEntity
+                    {
+                        Id = Convert.ToInt32(dr["Id"]),
+                        FirstName = dr["FirstName"].ToString(),
+                        LastName = dr["LastName"].ToString(),
+                        Email = dr["Email"].ToString(),
+                        Mobile = dr["Mobile"].ToString(),
+                        DOB = dr["DOB"].ToString(),
+                    });
+            }
+
+
+        }
+            public EmployeeEntity GetEmployeeById(int Id)
         {
             EmployeeEntity EmployeeListEntity = new EmployeeEntity();
 
