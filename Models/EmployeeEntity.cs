@@ -21,6 +21,11 @@ namespace EmployeeM.Models
 
         [DisplayName("Date of birth")]
         public string DOB { get; set; }
+
+
+        // Foreign Key reference to Department
+        public int DepartmentId { get; set; }  
+        public DepartmentEntity? Department { get; set; } 
     }
 
 }

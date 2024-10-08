@@ -1,4 +1,5 @@
 ﻿using EmployeeM.Models;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 using System.Data;
 using System.Data.Common;
 using System.Data.SqlClient;
@@ -34,25 +35,63 @@ namespace EmployeeM.Data
 
             foreach (DataRow dr in dt.Rows)
             {
-                NewMethod(EmployeeListEntity, dr);
+                HelperMethod(EmployeeListEntity, dr);
             }
 
             return EmployeeListEntity;
 
-            static void NewMethod(List<EmployeeEntity> EmployeeListEntity, DataRow dr)
+            void HelperMethod(List<EmployeeEntity> EmployeeListEntity, DataRow dr)
             {
-                EmployeeListEntity.Add(
-                    new EmployeeEntity
-                    {
-                        Id = Convert.ToInt32(dr["Id"]),
-                        FirstName = dr["FirstName"].ToString(),
-                        LastName = dr["LastName"].ToString(),
-                        Email = dr["Email"].ToString(),
-                        Mobile = dr["Mobile"].ToString(),
-                        DOB = dr["DOB"].ToString(),
-                    });
+                var EmployeeToReturn = new EmployeeEntity
+                {
+                    Id = Convert.ToInt32(dr["Id"]),
+                    FirstName = dr["FirstName"].ToString(),
+                    LastName = dr["LastName"].ToString(),
+                    Email = dr["Email"].ToString(),
+                    Mobile = dr["Mobile"].ToString(),
+                    DOB = dr["DOB"].ToString(),
+                    DepartmentId = Convert.ToInt32(dr["DepartmentId"])
+                };
+
+                EmployeeToReturn.Department = new DepartmentEntity
+                {
+                    Name = GetDepartmentNameById(EmployeeToReturn.DepartmentId) 
+                };
+
+                EmployeeListEntity.Add(EmployeeToReturn);
+                        
             }
         }
+
+
+        public string GetDepartmentNameById(int DepartmentId)
+        {
+            string DepartmentName = string.Empty;
+
+            SqlCommand cmd = new SqlCommand("GetDepartmentNameById", _connection);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@DepartmentId", DepartmentId);
+
+            if (_connection.State != ConnectionState.Open)
+            {
+                _connection.Open();
+            }
+
+            object result = cmd.ExecuteScalar();  
+
+            if (result != null)
+            {
+                DepartmentName = result.ToString();
+            }
+            else
+            {
+                DepartmentName = string.Empty;
+            }
+
+            return DepartmentName;
+        }
+
+
 
         public List<EmployeeEntity> GetEmployeeByFilter(string SearchString)
         {
