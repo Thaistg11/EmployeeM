@@ -1,6 +1,7 @@
 ﻿using EmployeeM.Data;
 using EmployeeM.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace EmpolyeeM.Controllers
 {
@@ -65,7 +66,13 @@ namespace EmpolyeeM.Controllers
         [HttpGet]
         public ActionResult AddEmployee()
         {
-            return View();  // Returns the AddEmployee form view
+            DepartmentRepository DepartmentRepository = new DepartmentRepository();
+            List<DepartmentEntity> departments = DepartmentRepository.GetAllDepartments();
+
+            // Pass the department list to the view as a SelectList
+            ViewBag.Departments = new SelectList(departments, "Id", "Name");
+
+            return View();  
         }
 
 
@@ -83,6 +90,9 @@ namespace EmpolyeeM.Controllers
                         return RedirectToAction("Index");
                     }
                 }
+                DepartmentRepository DepartmentRepository = new DepartmentRepository();
+                List<DepartmentEntity> Departments = DepartmentRepository.GetAllDepartments();
+                ViewBag.Departments = new SelectList(Departments, "Id", "Name");
 
                 return View(EmployeeDetails);
             }

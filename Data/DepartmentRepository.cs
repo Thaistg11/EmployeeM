@@ -24,24 +24,30 @@ namespace EmployeeM.Data
 
             SqlCommand cmd = new SqlCommand("GetAllDepartments", _connection);
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
+
             SqlDataAdapter dataAdapter = new SqlDataAdapter(cmd);
            
             DataTable dt = new DataTable();
 
 
-          
             dataAdapter.Fill(dt);
-             
+
             foreach (DataRow dr in dt.Rows)
+            {
+                AddDepartmentToList(DepartmentListEntity, dr);
+            }
+
+            return DepartmentListEntity;
+
+            static void AddDepartmentToList(List<DepartmentEntity> DepartmentListEntity, DataRow dr)
             {
                 DepartmentListEntity.Add(
                     new DepartmentEntity
                     {
-                        Name = dr["Name"].ToString()
-
+                        Id = Convert.ToInt32(dr["Id"]),
+                        Name = dr["Name"].ToString(),
                     });
             }
-            return DepartmentListEntity;
-        }
+                }
     }
 }

@@ -180,6 +180,7 @@ namespace EmployeeM.Data
             cmd.Parameters.AddWithValue("@Email", Employee.Email);
             cmd.Parameters.AddWithValue("@Mobile", Employee.Mobile);
             cmd.Parameters.AddWithValue("@DOB", Employee.DOB);
+            cmd.Parameters.AddWithValue("@DepartmentId", Employee.DepartmentId);
 
             _connection.Open();
 
