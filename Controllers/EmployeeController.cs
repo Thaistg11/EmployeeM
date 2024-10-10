@@ -34,8 +34,12 @@ namespace EmpolyeeM.Controllers
             EmployeeEntity Employee = new EmployeeEntity();
 
             EmployeeRepository EmployeeRepository = new EmployeeRepository();
+            DepartmentRepository DepartmentRepository = new DepartmentRepository();
 
             Employee = EmployeeRepository.GetEmployeeById(Id);
+
+            var departments = DepartmentRepository.GetAllDepartments();
+            ViewBag.Departments = new SelectList(departments, "Id", "Name", Employee.DepartmentId);
 
             return View("EditEmployee", Employee);
         }
@@ -54,11 +58,16 @@ namespace EmpolyeeM.Controllers
                         return RedirectToAction("Index");
                     }
                 }
-
+                DepartmentRepository departmentRepository = new DepartmentRepository();
+                List<DepartmentEntity> departments = departmentRepository.GetAllDepartments();
+                ViewBag.Departments = new SelectList(departments, "Id", "Name", EmployeeDetails.DepartmentId);
                 return View(EmployeeDetails);
             }
             catch
             {
+                DepartmentRepository departmentRepository = new DepartmentRepository();
+                List<DepartmentEntity> departments = departmentRepository.GetAllDepartments();
+                ViewBag.Departments = new SelectList(departments, "Id", "Name", EmployeeDetails.DepartmentId);
                 return View(EmployeeDetails);
             }
         }
@@ -111,6 +120,10 @@ namespace EmpolyeeM.Controllers
 
             Employee = EmployeeRepository.GetEmployeeById(Id);
 
+            DepartmentRepository DepartmentRepository = new DepartmentRepository();
+            List<DepartmentEntity> Departments = DepartmentRepository.GetAllDepartments();
+            ViewBag.Departments = new SelectList(Departments, "Id", "Name", Employee.DepartmentId);
+
             return View("DeleteEmployee", Employee);
       
         }
@@ -129,11 +142,11 @@ namespace EmpolyeeM.Controllers
                     }
                 }
 
-                return View(DeleteEmployee);
+                return View("DeleteEmployee");
             }
             catch
             {
-                return View(DeleteEmployee);
+                return View("DeleteEmployee");
             }
         }
 

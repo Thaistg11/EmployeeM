@@ -19,11 +19,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <UpToDateCheckInput Remove="Views\Employee\DeleteEmployee.cshtml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <_ContentIncludedByDefault Remove="Views\Employee\DeleteEmployee.cshtml" />
     <_ContentIncludedByDefault Remove="Views\Employee\GetEmployeeByFilter.cshtml" />
   </ItemGroup>
 

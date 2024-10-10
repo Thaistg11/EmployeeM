@@ -163,6 +163,8 @@ namespace EmployeeM.Data
                     Email = dr["Email"].ToString(),
                     Mobile = dr["Mobile"].ToString(),
                     DOB = dr["DOB"].ToString(),
+                    DepartmentId = Convert.ToInt32(dr["DepartmentId"]),
+
                 };
 
             return EmployeeListEntity;
@@ -206,8 +208,8 @@ namespace EmployeeM.Data
             cmd.Parameters.AddWithValue("@LastName", Employee.LastName);
             cmd.Parameters.AddWithValue("@Email", Employee.Email);
             cmd.Parameters.AddWithValue("@Mobile", Employee.Mobile);
+            cmd.Parameters.AddWithValue("@DepartmentId", Employee.DepartmentId);
             cmd.Parameters.AddWithValue("@DOB", Employee.DOB);
-
             _connection.Open();
 
             int i = cmd.ExecuteNonQuery();
