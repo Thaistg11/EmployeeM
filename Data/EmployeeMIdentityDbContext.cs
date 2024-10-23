@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace EmployeeM.Areas.Identity.Data;
+namespace EmployeeM.Data;
 
 public class EmployeeMIdentityDbContext : IdentityDbContext<IdentityUser>
 {

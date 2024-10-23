@@ -1,29 +1,23 @@
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using EmpolyeeM;
 using EmployeeM.Data;
-using EmployeeM.Areas.Identity.Data;
-
-
 
 var builder = WebApplication.CreateBuilder(args);
 
-
-
-// Add services to the container (registering ApplicationDbContext and Identity).
+// Configure DbContext for Identity
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("EmployeeM")));
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<EmployeeMIdentityDbContext>();
-
+// Identity configuration with roles and IdentityUser
 builder.Services.AddIdentity<IdentityUser, IdentityRole>()
-    .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddEntityFrameworkStores<ApplicationDbContext>() // UseEmployeeMIdentityDbContext for Identity
     .AddDefaultTokenProviders();
 
-
-// Add services to the container.
+// Add controllers with views
 builder.Services.AddControllersWithViews();
+
+// Add Razor Pages (required for Identity)
+builder.Services.AddRazorPages(); 
 
 var app = builder.Build();
 
@@ -31,7 +25,6 @@ var app = builder.Build();
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
@@ -40,7 +33,11 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+// Ensure Authentication comes before Authorization
+app.UseAuthentication();
 app.UseAuthorization();
+
+app.MapRazorPages();
 
 app.MapControllerRoute(
     name: "default",

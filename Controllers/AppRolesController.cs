@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EmployeeM.Controllers
@@ -11,11 +12,12 @@ namespace EmployeeM.Controllers
         {
             _roleManager = roleManager;
         }
-        public IActionResult Index()
+        public IActionResult Index( )
         {
-            var roles = _roleManager.Roles;
-          
-            return View();
+            var roles = _roleManager.Roles.ToList(); // Retrieve the roles from the database
+           
+
+            return View(roles);
         }
 
         [HttpGet]
