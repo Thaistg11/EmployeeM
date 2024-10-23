@@ -13,6 +13,17 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>() // UseEmployeeMIdentityDbContext for Identity
     .AddDefaultTokenProviders();
 
+
+builder.Services.Configure<IdentityOptions>(options =>
+{
+    // Disable email confirmation requirement
+    options.SignIn.RequireConfirmedAccount = false; 
+});
+
+// Add Razor Pages services (required for ASP.NET Identity)
+builder.Services.AddRazorPages();  // <-- This adds Razor Pages services
+
+
 // Add controllers with views
 builder.Services.AddControllersWithViews();
 
