@@ -34,12 +34,25 @@
                 <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
             </div>
             <div class="form-floating mb-3">
-                <select asp-for="Input.Role" asp-items="@Model.Input.RoleList" class="form-Select" aria-required="true">
+                <select asp-for="Input.Role" asp-items="@Model.Input.RoleList" class="form-control">
                     <option disabled selected>Select Role</option>
                 </select>
                 <span asp-validation-for="Input.Role" class="text-danger"></span>
             </div>
         
+            <!-- Department Selection Dropdown -->
+            <div class="form-floating mb-3">
+                <select asp-for="Input.SelectedDepartmentId" class="form-control">
+                    <option value="">Select Department</option>
+                    @foreach (var department in Model.Departments)
+                    {
+                        <option value="@department.Value">@department.Text</option>
+                    }
+                </select>
+                <label asp-for="Input.SelectedDepartmentId">Department</label>
+                <span asp-validation-for="Input.SelectedDepartmentId" class="text-danger"></span>
+            </div>
+
             <!-- Submit Button -->
             <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
         </form>

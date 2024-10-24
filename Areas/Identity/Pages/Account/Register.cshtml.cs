@@ -10,6 +10,7 @@ using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading;
 using System.Threading.Tasks;
+using EmployeeM.Data;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -20,6 +21,8 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using EmployeeM.Data;
+using System.Data;
 
 namespace EmployeeM.Areas.Identity.Pages.Account
 {
@@ -31,6 +34,9 @@ namespace EmployeeM.Areas.Identity.Pages.Account
         private readonly IUserEmailStore<IdentityUser> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly DepartmentRepository _departmentRepository;
+        private readonly DepartmentUserRepository _departmentUserRepository;
+
 
 
         public RegisterModel(
@@ -38,7 +44,10 @@ namespace EmployeeM.Areas.Identity.Pages.Account
             IUserStore<IdentityUser> userStore,
             SignInManager<IdentityUser> signInManager,
             ILogger<RegisterModel> logger,
-             RoleManager<IdentityRole> roleManager)
+             RoleManager<IdentityRole> roleManager,
+             DepartmentRepository departmentRepository,
+             DepartmentUserRepository departmentUserRepository)
+
         {
             _userManager = userManager;
             _userStore = userStore;
@@ -46,6 +55,8 @@ namespace EmployeeM.Areas.Identity.Pages.Account
             _signInManager = signInManager;
             _logger = logger;
             _roleManager = roleManager;
+            _departmentRepository = departmentRepository;
+            _departmentUserRepository = departmentUserRepository;
         }
 
         /// <summary>
@@ -109,13 +120,27 @@ namespace EmployeeM.Areas.Identity.Pages.Account
 
             public IEnumerable<SelectListItem> RoleList { get; set; }
 
-        }
+            [Required]
+            [Display(Name = "Department")]
+            public int SelectedDepartmentId { get; set; } // Department selection
 
+        }
+        public IList<SelectListItem> Departments { get; set; }
+        public async Task<IList<SelectListItem>> GetAllDepartments()
+        {
+            var departments = _departmentRepository.GetAllDepartments(); // Use the repository to fetch departments
+            return departments.Select(d => new SelectListItem
+            {
+                Value = d.Id.ToString(),
+                Text = d.Name
+            }).ToList();
+        }
 
         public async Task OnGetAsync(string returnUrl = null)
         {
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+            Departments = await GetAllDepartments();
 
             Input = new InputModel()
             {
@@ -142,6 +167,17 @@ namespace EmployeeM.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
+
+                    if (!string.IsNullOrEmpty(Input.Role) && await _roleManager.RoleExistsAsync(Input.Role))
+                    {
+                        await _userManager.AddToRoleAsync(user, Input.Role);
+                    }
+                    if (Input.SelectedDepartmentId > 0)
+                    {
+                        // Call method on UserDepartmentRepository to create the table
+                        _departmentUserRepository.AddDepartmentUser(user.Id, Input.SelectedDepartmentId);
+                    }
+
 
                     var userId = await _userManager.GetUserIdAsync(user);
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
@@ -170,6 +206,10 @@ namespace EmployeeM.Areas.Identity.Pages.Account
                 }
             }
 
+            // If we got this far, something failed, redisplay form
+            // Fetch departments from the database
+            Departments = await GetAllDepartments();
+ 
             // If we got this far, something failed, redisplay form
             return Page();
         }
