@@ -2,6 +2,7 @@
 using EmployeeM.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Security.Claims;
 
 namespace EmpolyeeM.Controllers
 {
@@ -12,17 +13,20 @@ namespace EmpolyeeM.Controllers
             List<EmployeeEntity> Employee = new List<EmployeeEntity>();
             EmployeeRepository EmployeeRepository = new EmployeeRepository();
 
-            // Check if any of the filter parameters are populated
-            if (!String.IsNullOrEmpty(SearchString))
+            if (!User.IsInRole("Admin"))
             {
-                // If any filter parameters are populated, call GetEmployeeByFilter
-                Employee = EmployeeRepository.GetEmployeeByFilter(SearchString);
+                // Get the currently logged-in user's ID
+                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+                // Retrieve employees by the user's department using the user ID
+                Employee = EmployeeRepository.GetEmployeeByDepartment(userId);
             }
             else
             {
-                // If none of the filter parameters are populated, call GetAllEmployee
+                // Retrieve all employees if the user is an admin
                 Employee = EmployeeRepository.GetAllEmployee();
             }
+
 
             return View(Employee);
         }

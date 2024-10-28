@@ -40,28 +40,55 @@ namespace EmployeeM.Data
 
             return EmployeeListEntity;
 
-            void HelperMethod(List<EmployeeEntity> EmployeeListEntity, DataRow dr)
-            {
-                var EmployeeToReturn = new EmployeeEntity
-                {
-                    Id = Convert.ToInt32(dr["Id"]),
-                    FirstName = dr["FirstName"].ToString(),
-                    LastName = dr["LastName"].ToString(),
-                    Email = dr["Email"].ToString(),
-                    Mobile = dr["Mobile"].ToString(),
-                    DOB = Convert.ToDateTime(dr["DOB"]).ToString("yyyy-MM-dd"),
-                    DepartmentId = Convert.ToInt32(dr["DepartmentId"])
-                };
 
-                EmployeeToReturn.Department = new DepartmentEntity
-                {
-                    Name = GetDepartmentNameById(EmployeeToReturn.DepartmentId) 
-                };
-
-                EmployeeListEntity.Add(EmployeeToReturn);
-                        
-            }
         }
+
+        public List<EmployeeEntity> GetEmployeeByDepartment(string userId)
+        {
+            List<EmployeeEntity> EmployeeListEntity = new List<EmployeeEntity>();
+
+            SqlCommand cmd = new SqlCommand("GetEmployeeByDepartment", _connection);
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@UserId", userId);
+
+            SqlDataAdapter dataAdapter = new SqlDataAdapter(cmd);
+
+            DataTable dt = new DataTable();
+
+            dataAdapter.Fill(dt);
+
+            foreach (DataRow dr in dt.Rows)
+            {
+                HelperMethod(EmployeeListEntity, dr);
+            }
+
+
+            return EmployeeListEntity;
+
+        }
+
+        void HelperMethod(List<EmployeeEntity> EmployeeListEntity, DataRow dr)
+        {
+            var EmployeeToReturn = new EmployeeEntity
+            {
+                Id = Convert.ToInt32(dr["Id"]),
+                FirstName = dr["FirstName"].ToString(),
+                LastName = dr["LastName"].ToString(),
+                Email = dr["Email"].ToString(),
+                Mobile = dr["Mobile"].ToString(),
+                DOB = Convert.ToDateTime(dr["DOB"]).ToString("yyyy-MM-dd"),
+                DepartmentId = Convert.ToInt32(dr["DepartmentId"])
+            };
+
+            EmployeeToReturn.Department = new DepartmentEntity
+            {
+                Name = GetDepartmentNameById(EmployeeToReturn.DepartmentId)
+            };
+
+            EmployeeListEntity.Add(EmployeeToReturn);
+
+        }
+    
 
 
         public string GetDepartmentNameById(int DepartmentId)
