@@ -1,8 +1,11 @@
 ﻿using EmployeeM.Data;
 using EmployeeM.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Security.Claims;
-
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 namespace EmployeeM.Controllers
 {
     public class ThemeController : Controller
@@ -10,7 +13,7 @@ namespace EmployeeM.Controllers
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly ThemeRepository _themeRepository;
 
-        public ThemeController(IHttpContextAccessor httpContextAccessor, ThemeRepository themeRepository)
+        public ThemeController (IHttpContextAccessor httpContextAccessor, ThemeRepository themeRepository)
         {
             _httpContextAccessor = httpContextAccessor;
             _themeRepository = themeRepository;
@@ -27,20 +30,66 @@ namespace EmployeeM.Controllers
         public IActionResult GetTheme()
         {
             // Retrieve the current user ID
-            var userId = GetCurrentUserId();
+            var UserId = GetCurrentUserId();
             ThemeEntity theme = new ThemeEntity();
 
             // Check if the user is authenticated
-            if (string.IsNullOrEmpty(userId))
+            if (string.IsNullOrEmpty(UserId))
             {
                 var notLoggedUser = "Empty";
                 theme = _themeRepository.GetTheme(notLoggedUser);
             }
             else
             {
-                theme = _themeRepository.GetTheme(userId);
+                theme = _themeRepository.GetTheme(UserId);
             }
-            return View("NewEdit", theme);
+            return View("Index", theme);
+        }
+        [HttpPost]
+        public IActionResult UpdateOrCreateDepartmentTheme(ThemeEntity ThemeFromTheView)
+        {
+            var userId = GetCurrentUserId();
+
+            // Retrieve the theme associated with the user
+            var theme = _themeRepository.GetTheme(userId);
+
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    var themeRepository = new ThemeRepository();
+
+                    if (theme == null)
+                    {
+                        Console.WriteLine("Condition is true");
+                        // Theme is empty: call the Create function
+                        themeRepository.CreateDepartmentTheme(ThemeFromTheView, userId);
+                        {
+                            // Retrieve the new theme just created
+                            var themeUpdated = _themeRepository.GetTheme(userId);
+                            return View("Index", themeUpdated);
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("Condition is not  true 123");
+                        // Theme exists: call the Update function
+                        themeRepository.UpdateDepartmentTheme(ThemeFromTheView);
+
+                        // Retrieve the new theme if updated values
+                        var themeUpdated = _themeRepository.GetTheme(userId);
+                            return View("Index", themeUpdated);
+
+                    }
+                }
+                return View("Index-error");
+            }
+            catch (Exception ex)
+            {
+                // Log the exception
+                Console.WriteLine(ex);
+                return View("Index-error-catch");
+            }
         }
 
         [HttpGet]
@@ -125,28 +174,7 @@ namespace EmployeeM.Controllers
             // return PartialView("_ThemePartial", themeEntity);
             return themeEntity.BodyColor;
         }
-        [HttpPost]
-        public IActionResult updateDepartmentTheme(ThemeEntity theme)
-        {
-            try
-            {
-                if (ModelState.IsValid)
-                {
-                    ThemeRepository _DbEmployee = new ThemeRepository();
-                    if (_DbEmployee.updateDepartmentTheme(theme))
-                    {
-
-                        return View("NewEdit", theme);
-                    }
-                }
-                return View("NewEdit", theme);
-            }
-            catch
-            {
-                return View("NewEdit", theme);
-            }
-        }
-
+ 
 
 
     }

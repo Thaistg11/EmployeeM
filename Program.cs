@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using EmployeeM.Data;
+using EmployeeM.Controllers;
+using EmployeeM.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +17,10 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>()
 
 builder.Services.AddScoped<DepartmentRepository>();
 builder.Services.AddScoped<DepartmentUserRepository>();
+builder.Services.AddScoped<ThemeRepository>();
+builder.Services.AddScoped<ThemeController>();
+builder.Services.AddScoped<ThemeEntity>();
+builder.Services.AddHttpContextAccessor();
 
 
 builder.Services.Configure<IdentityOptions>(options =>
@@ -29,6 +35,11 @@ builder.Services.AddRazorPages();  // <-- This adds Razor Pages services
 
 // Add controllers with views
 builder.Services.AddControllersWithViews();
+
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.LoginPath = "/Identity/Account/Login"; // This is the default login page for Identity
+});
 
 // Add Razor Pages (required for Identity)
 builder.Services.AddRazorPages(); 

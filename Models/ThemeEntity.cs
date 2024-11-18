@@ -2,7 +2,7 @@
 {
     public class ThemeEntity
     {
-        public int Id { get; set; }
+        public int? Id { get; set; }
         public string? BodyBGColor { get; set; }
         public string? BodyColor { get; set; }
         public string? HeaderFooterBGColor { get; set; }
