@@ -33,6 +33,8 @@ namespace EmployeeM.Controllers
             var UserId = GetCurrentUserId();
             ThemeEntity theme = new ThemeEntity();
 
+
+
             // Check if the user is authenticated
             if (string.IsNullOrEmpty(UserId))
             {
@@ -97,20 +99,26 @@ namespace EmployeeM.Controllers
         {
             ThemeEntity themeEntity;
             var userId = GetCurrentUserId();
-            string testId = "1";
+
 
             if (string.IsNullOrEmpty(userId))
             {
                 themeEntity = _themeRepository.GetTheme(userId);
-
+                return null;
             }
             else
             {
                 themeEntity = _themeRepository.GetTheme(userId);
-            }
-
-            // return PartialView("_ThemePartial", themeEntity);
-            return themeEntity.HeaderFooterBGColor;
+                if (themeEntity == null)
+                {
+                    return null;
+                }
+                else
+                {
+                    return themeEntity.HeaderFooterBGColor;
+                }
+            }   
+            
         }
 
         [HttpGet]
@@ -118,61 +126,81 @@ namespace EmployeeM.Controllers
         {
             ThemeEntity themeEntity;
             var userId = GetCurrentUserId();
-            string testId = "1";
+           
 
             if (string.IsNullOrEmpty(userId))
             {
                 themeEntity = _themeRepository.GetTheme(userId);
-
+                return null;
             }
             else
             {
                 themeEntity = _themeRepository.GetTheme(userId);
+                if (themeEntity == null)
+                {
+                    return null;
+                }
+                else
+                {
+                    return themeEntity.HeaderFooterColor;
+                }
             }
+           
 
-            // return PartialView("_ThemePartial", themeEntity);
-            return themeEntity.HeaderFooterColor;
+      
+          
         }
-
         [HttpGet]
         public string GetBodyBGColor()
         {
             ThemeEntity themeEntity;
             var userId = GetCurrentUserId();
-            string testId = "1";
 
             if (string.IsNullOrEmpty(userId))
             {
-                themeEntity = _themeRepository.GetTheme(userId);
-
+                return null;
             }
             else
             {
                 themeEntity = _themeRepository.GetTheme(userId);
+                if (themeEntity == null)
+                {
+                    return null;
+                }
+                else
+                {
+                    return themeEntity.BodyBGColor;
+                }
             }
-
-            // return PartialView("_ThemePartial", themeEntity);
-            return themeEntity.BodyBGColor;
+            
         }
+
         [HttpGet]
         public string GetBodyColor()
         {
             ThemeEntity themeEntity;
             var userId = GetCurrentUserId();
-            string testId = "1";
+           
 
             if (string.IsNullOrEmpty(userId))
             {
                 themeEntity = _themeRepository.GetTheme(userId);
-
+                return null;
             }
             else
             {
                 themeEntity = _themeRepository.GetTheme(userId);
+                if (themeEntity == null)
+                {
+                    return null;
+                }
+                else
+                {
+                    return themeEntity.BodyColor;
+                }
             }
-
-            // return PartialView("_ThemePartial", themeEntity);
-            return themeEntity.BodyColor;
+         
+       
         }
  
 
