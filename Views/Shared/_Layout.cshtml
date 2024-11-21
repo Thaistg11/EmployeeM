@@ -12,6 +12,7 @@
 }
 <style>
 
+
     .custom-header-footer {
         background-color: @(string.IsNullOrEmpty(HeaderFooterBGColor) ? "black" : HeaderFooterBGColor);
         color: @(string.IsNullOrEmpty(HeaderFooterColor) ? "white" : HeaderFooterColor);
@@ -42,13 +43,13 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/EmployeeM.styles.css" asp-append-version="true" />
 </head>
-<body>
+<body >
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm border-bottom box-shadow mb-3"
-             style="background-color:@(string.IsNullOrEmpty(HeaderFooterBGColor) ? "#ffffff" : HeaderFooterBGColor)">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm box-shadow"
+             style="background-color:@(string.IsNullOrEmpty(HeaderFooterBGColor) ? "#ffff" : HeaderFooterBGColor)">
 
             <div class="container-fluid">
-                <a class="custom-header-footer" asp-area="" asp-controller="Home" asp-action="Index">Employee</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Employee</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -60,14 +61,15 @@
            
         </nav>
     </header>
+    <div class="custom-body">
     <div class="container">
-        <main role="main" class="pb-3">
+        <main role="main">
             @RenderBody()
          
         </main>
     </div>
-
-    <footer class="border-top footer text-muted">
+    </div>
+    <footer class="footer text-muted">
         <div class="custom-header-footer">
             &copy; 2024 - Employee - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
