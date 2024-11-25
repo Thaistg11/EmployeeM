@@ -18,7 +18,7 @@ namespace EmployeeM.Controllers
             return View();
         }
 
-        public IActionResult Privacy()
+        public IActionResult HomePartial()
         {
             return View();
         }

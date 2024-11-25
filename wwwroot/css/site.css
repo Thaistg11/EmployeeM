@@ -31,3 +31,8 @@ body {
 .remove-margin-b {
     margin-bottom: 0px;
 }
+
+.div-header {
+    color:black;
+    background-color:white;
+}

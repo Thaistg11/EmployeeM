@@ -14,20 +14,20 @@
 
 
     .custom-header-footer {
-        background-color: @(string.IsNullOrEmpty(HeaderFooterBGColor) ? "black" : HeaderFooterBGColor);
-        color: @(string.IsNullOrEmpty(HeaderFooterColor) ? "white" : HeaderFooterColor);
+ 
+          background-color: @(string.IsNullOrEmpty(HeaderFooterBGColor) ? "white" : HeaderFooterBGColor);
+        color: @(string.IsNullOrEmpty(HeaderFooterColor) ? "orange" : HeaderFooterColor);
     }
 
     .custom-header-footer {
-        color: @(string.IsNullOrEmpty(HeaderFooterColor) ? "white" : HeaderFooterColor);
+        color: @(string.IsNullOrEmpty(HeaderFooterColor) ? "#80bfff" : HeaderFooterColor);
     }
 
     .custom-body {
-        background-color: @(string.IsNullOrEmpty(BodyBGColor) ? "black" : BodyBGColor);
+        background-color: @(string.IsNullOrEmpty(BodyBGColor) ? "#80bfff" : BodyBGColor);
         color: @(string.IsNullOrEmpty(BodyColor)? "white" : BodyColor);
         }
 
-   
 </style>
 
 
@@ -49,7 +49,7 @@
              style="background-color:@(string.IsNullOrEmpty(HeaderFooterBGColor) ? "#ffff" : HeaderFooterBGColor)">
 
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Employee</a>
+                <a class="navbar-brand " asp-area="" asp-controller="Home" asp-action="Index">Employee</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -70,8 +70,8 @@
     </div>
     </div>
     <footer class="footer text-muted">
-        <div class="custom-header-footer">
-            &copy; 2024 - Employee - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        <div class="custom-body">
+            &copy; 2024 - Employee <a asp-area="" asp-controller="Home" asp-action="Privacy"></a>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
