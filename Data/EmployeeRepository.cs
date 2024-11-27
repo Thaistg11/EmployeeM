@@ -35,7 +35,7 @@ namespace EmployeeM.Data
 
             foreach (DataRow dr in dt.Rows)
             {
-                HelperMethod(EmployeeListEntity, dr);
+                ConvertDepartmentIdToName(EmployeeListEntity, dr);
             }
 
             return EmployeeListEntity;
@@ -59,7 +59,7 @@ namespace EmployeeM.Data
 
             foreach (DataRow dr in dt.Rows)
             {
-                HelperMethod(EmployeeListEntity, dr);
+                ConvertDepartmentIdToName(EmployeeListEntity, dr);
             }
 
 
@@ -67,7 +67,7 @@ namespace EmployeeM.Data
 
         }
 
-        void HelperMethod(List<EmployeeEntity> EmployeeListEntity, DataRow dr)
+        void ConvertDepartmentIdToName(List<EmployeeEntity> EmployeeListEntity, DataRow dr)
         {
             var EmployeeToReturn = new EmployeeEntity
             {
@@ -142,27 +142,42 @@ namespace EmployeeM.Data
 
             foreach (DataRow dr in dt.Rows)
             {
-                NewMethod(EmployeeListEntity, dr);
+                ConvertDepartmentIdToName(EmployeeListEntity, dr);
             }
 
             return EmployeeListEntity;
 
-            static void NewMethod(List<EmployeeEntity> EmployeeListEntity, DataRow dr)
+       
+
+        }
+
+        public List<EmployeeEntity> GetEmployeeByDepartmentFilter(string userId, string searchString)
+        {
+            List<EmployeeEntity> EmployeeListEntity = new List<EmployeeEntity>();
+
+            SqlCommand cmd = new SqlCommand("GetEmployeeByDepartmentFilter", _connection);
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            // Add parameters for UserId and SearchString
+            cmd.Parameters.Add(new SqlParameter("@UserId", userId));
+            cmd.Parameters.Add(new SqlParameter("@SearchString", string.IsNullOrEmpty(searchString) ? (object)DBNull.Value : searchString));
+
+            SqlDataAdapter dataAdapter = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable();
+            dataAdapter.Fill(dt);
+
+            foreach (DataRow dr in dt.Rows)
             {
-                EmployeeListEntity.Add(
-                    new EmployeeEntity
-                    {
-                        Id = Convert.ToInt32(dr["Id"]),
-                        FirstName = dr["FirstName"].ToString(),
-                        LastName = dr["LastName"].ToString(),
-                        Email = dr["Email"].ToString(),
-                        Mobile = dr["Mobile"].ToString(),
-                        DOB = dr["DOB"].ToString(),
-                    });
+                ConvertDepartmentIdToName(EmployeeListEntity, dr);
             }
+
+            return EmployeeListEntity;
 
 
         }
+
+
+
         public EmployeeEntity GetEmployeeById(int Id)
         {
             EmployeeEntity EmployeeListEntity = new EmployeeEntity();

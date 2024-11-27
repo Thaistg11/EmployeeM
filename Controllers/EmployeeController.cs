@@ -18,18 +18,35 @@ namespace EmpolyeeM.Controllers
                 // Get the currently logged-in user's ID
                 var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-                // Retrieve employees by the user's department using the user ID
-                Employee = EmployeeRepository.GetEmployeeByDepartment(userId);
+                if (!String.IsNullOrEmpty(SearchString))
+                {
+                    // Retrieve employees by the user's department and filter by SearchString
+                    Employee = EmployeeRepository.GetEmployeeByDepartmentFilter(userId, SearchString);
+                }
+                else
+                {
+                    // Retrieve employees by the user's department only
+                    Employee = EmployeeRepository.GetEmployeeByDepartment(userId);
+                }
             }
             else
             {
-                // Retrieve all employees if the user is an admin
-                Employee = EmployeeRepository.GetAllEmployee();
+                if (!String.IsNullOrEmpty(SearchString))
+                {
+                    // Retrieve employees by filter for admin
+                    Employee = EmployeeRepository.GetEmployeeByFilter(SearchString);
+                }
+                else
+                {
+                    // Retrieve all employees for admin
+                    Employee = EmployeeRepository.GetAllEmployee();
+                }
             }
-
 
             return View(Employee);
         }
+
+
 
 
         [HttpGet]
