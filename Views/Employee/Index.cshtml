@@ -49,6 +49,7 @@
     <style>
         body, h1, h2, h3, h4, h5, h6 {
             font-family: "Lato", sans-serif
+            
         }
 
         .w3-bar, h1, button {
@@ -58,6 +59,8 @@
         .fa-anchor, .fa-coffee {
             font-size: 200px
         }
+
+
     </style>
 </head>
 <body>
@@ -74,8 +77,9 @@
     
 
     <!-- Header -->
-    <h1>Employee List</h1>
-    <hr />
+    <div>
+        <h1 class="custom-margin" >Employee List</h1>
+    </div>
 
     <!-- First Grid -->
  
@@ -155,7 +159,7 @@
     </div>
 
 
-    <div margin-bottom: 50px;>
+    <div class="custom-margin">
 
         <a>
             <a asp-action="AddEmployee" asp-controller="Employee" class="btn  btn-dark btn-primary">Create</a>

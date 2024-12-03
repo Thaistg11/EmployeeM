@@ -15,8 +15,10 @@ namespace EmployeeM.Models
         [DisplayName("Last Name")]
         public string LastName { get; set; }
 
+        [DisplayName("Mobile")]
         public string Mobile { get; set; }
 
+        [DisplayName("Email")]
         public string Email { get; set; }
 
         [DisplayName("Date of birth")]

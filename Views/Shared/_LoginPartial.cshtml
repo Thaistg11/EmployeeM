@@ -41,7 +41,10 @@
                 <a class="custom-header-footer" asp-area="" asp-controller="Department" asp-action="Index">Departments</a>
             </li>
             <li class="nav-item">
-                <a class="custom-header-footer" asp-area="" asp-controller="AppRoles" asp-action="Index">User Roles</a>
+                @if (User.IsInRole("Admin"))
+                {
+                    <a class="custom-header-footer" asp-area="" asp-controller="AppRoles" asp-action="Index">User Roles</a>
+                }
             </li>
             <li class="nav-item">
                 <a class="custom-header-footer" asp-area="" asp-controller="Theme" asp-action="GetTheme">Theme</a>

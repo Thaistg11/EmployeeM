@@ -1,14 +1,4 @@
-﻿@using Microsoft.AspNetCore.Identity
-@using EmployeeM.Data;
-@using Microsoft.Identity;
-     
-
-@inject SignInManager<IdentityUser> SignInManager
-@inject UserManager<IdentityUser> UserManager
-
-
-
-@{
+﻿@{
     ViewData["Title"] = "Home Page";
 }
 
@@ -32,7 +22,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>EmployeeM</title>
+    <title>W3.CSS Template</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
@@ -69,15 +59,17 @@
     </div>
 
     <!-- Header -->
-    <header class="w3-container div-header w3-center" style="padding:128px 16px">
 
-        <h1 class="w3-margin w3-jumbo">Employee Management</h1>
+    <header class="w3-container div-header w3-center" style="padding:80px 16px">
+        <h1 class="class=" w3-margin w3-jumbo"">Employee Management</h1>
         <p class="w3-xlarge"> Department </p>
         <a asp-action="Index" asp-controller="Employee" class="w3-button w3-black w3-padding-large w3-large w3-margin-top">Employee List</a>
     </header>
 
+
+
     <!-- First Grid -->
-    <div class="w3-row-padding w3-padding-64 w3-container">
+    <div class="w3-row-padding custom-body w3-padding-64 w3-container">
         <div class="w3-content">
             <div class="w3-twothird">
                 <h1>Employee Management</h1>
@@ -88,8 +80,14 @@
                     It supports linking employees to their respective departments and provides an efficient way to manage these relationships. By leveraging ADO.NET, the application ensures efficient database operations,
                     security, and scalability to meet your organization's needs.
                 </h5>
-
-
             </div>
+            <div class="w3-third w3-center">
+                <i class="fa fa-anchor w3-padding-64 w3-text-black"></i>
+            </div>
+        </div>
+    </div>
+
+
+
 </body>
 </html>
