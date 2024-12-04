@@ -14,18 +14,17 @@
 
 
     .custom-header-footer {
- 
-          background-color: @(string.IsNullOrEmpty(HeaderFooterBGColor) ? "white" : HeaderFooterBGColor);
-        color: @(string.IsNullOrEmpty(HeaderFooterColor) ? "orange" : HeaderFooterColor);
+        background-color: @(string.IsNullOrEmpty(HeaderFooterBGColor) ? "#89A8B2" : HeaderFooterBGColor);
+        color: @(string.IsNullOrEmpty(HeaderFooterColor) ? "white" : HeaderFooterColor);
     }
 
     .custom-header-footer {
-        color: @(string.IsNullOrEmpty(HeaderFooterColor) ? "#80bfff" : HeaderFooterColor);
+        color: @(string.IsNullOrEmpty(HeaderFooterColor) ? "white" : HeaderFooterColor);
     }
 
     .custom-body {
-        background-color: @(string.IsNullOrEmpty(BodyBGColor) ? "#80bfff" : BodyBGColor);
-        color: @(string.IsNullOrEmpty(BodyColor)? "white" : BodyColor);
+        background-color: @(string.IsNullOrEmpty(BodyBGColor) ? "#89A8B2" : BodyBGColor);
+        color: @(string.IsNullOrEmpty(BodyColor)? "black" : BodyColor);
         }
 
 </style>
@@ -51,7 +50,7 @@
 <body >
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm box-shadow"
-             style="background-color:@(string.IsNullOrEmpty(HeaderFooterBGColor) ? "#ffff" : HeaderFooterBGColor)">
+             style="background-color:@(string.IsNullOrEmpty(HeaderFooterBGColor) ? "#89A8B2" : HeaderFooterBGColor)">
 
             <div class="container-fluid">
                 <a class="navbar-brand " asp-area="" asp-controller="Home" asp-action="Index">Employee</a>
@@ -80,7 +79,7 @@
 
         
         <!-- Footer -->
-        <div class="w3-container  custom-header-footer w3-black w3-center w3-opacity w3-padding-64">
+        <div class="w3-container  custom-header-footer w3-white w3-center w3-opacity w3-padding-64">
             <h1 class="w3-margin w3-xlarge">"EmployeeM, smarter employee management"</h1>
         </div>
 
