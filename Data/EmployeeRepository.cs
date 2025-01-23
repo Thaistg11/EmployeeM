@@ -131,6 +131,7 @@ namespace EmployeeM.Data
 
             // Adding each parameter separately
 
+
             cmd.Parameters.Add(new SqlParameter("@FirstName", SearchString));
             cmd.Parameters.Add(new SqlParameter("@LastName", SearchString));
 
@@ -204,7 +205,7 @@ namespace EmployeeM.Data
                     LastName = dr["LastName"].ToString(),
                     Email = dr["Email"].ToString(),
                     Mobile = dr["Mobile"].ToString(),
-                    DOB = Convert.ToDateTime(dr["DOB"]).ToString("yyyy-MM-dd"),
+                    DOB = Convert.ToDateTime(dr["DOB"]).ToString(),
                     DepartmentId = Convert.ToInt32(dr["DepartmentId"]),
 
                 };
