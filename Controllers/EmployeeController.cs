@@ -4,172 +4,124 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Security.Claims;
 
-namespace EmpolyeeM.Controllers
+namespace EmployeeM.Controllers
 {
     public class EmployeeController : Controller
     {
+        private readonly EmployeeRepository _employeeRepository;
+        private readonly DepartmentRepository _departmentRepository;
+
+        // ✅ Constructor injection
+        public EmployeeController(EmployeeRepository employeeRepository, DepartmentRepository departmentRepository)
+        {
+            _employeeRepository = employeeRepository;
+            _departmentRepository = departmentRepository;
+        }
+
         public IActionResult Index(string SearchString)
         {
             List<EmployeeEntity> Employee = new List<EmployeeEntity>();
-            EmployeeRepository EmployeeRepository = new EmployeeRepository();
 
             if (!User.IsInRole("Admin"))
             {
-                // Get the currently logged-in user's ID
                 var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-                if (!String.IsNullOrEmpty(SearchString))
+                if (!string.IsNullOrEmpty(SearchString))
                 {
-                    // Retrieve employees by the user's department and filter by SearchString
-                    Employee = EmployeeRepository.GetEmployeeByDepartmentFilter(userId, SearchString);
+                    Employee = _employeeRepository.GetEmployeeByDepartmentFilter(userId, SearchString);
                 }
                 else
                 {
-                    // Retrieve employees by the user's department only
-                    Employee = EmployeeRepository.GetEmployeeByDepartment(userId);
+                    Employee = _employeeRepository.GetEmployeeByDepartment(userId);
                 }
             }
             else
             {
-                if (!String.IsNullOrEmpty(SearchString))
+                if (!string.IsNullOrEmpty(SearchString))
                 {
-                    // Retrieve employees by filter for admin
-                    Employee = EmployeeRepository.GetEmployeeByFilter(SearchString);
+                    Employee = _employeeRepository.GetEmployeeByFilter(SearchString);
                 }
                 else
                 {
-                    // Retrieve all employees for admin
-                    Employee = EmployeeRepository.GetAllEmployee();
+                    Employee = _employeeRepository.GetAllEmployee();
                 }
             }
 
             return View(Employee);
         }
 
-
-
-
         [HttpGet]
-        public IActionResult EditEmployee (int Id)
+        public IActionResult EditEmployee(int Id)
         {
-            EmployeeEntity Employee = new EmployeeEntity();
+            var Employee = _employeeRepository.GetEmployeeById(Id);
+            var departments = _departmentRepository.GetAllDepartments();
 
-            EmployeeRepository EmployeeRepository = new EmployeeRepository();
-            DepartmentRepository DepartmentRepository = new DepartmentRepository();
-
-            Employee = EmployeeRepository.GetEmployeeById(Id);
-
-            var departments = DepartmentRepository.GetAllDepartments();
             ViewBag.Departments = new SelectList(departments, "Id", "Name", Employee.DepartmentId);
-
             return View("EditEmployee", Employee);
         }
-
 
         [HttpPost]
         public IActionResult EditEmployeeDetails(int Id, EmployeeEntity EmployeeDetails)
         {
-            try
+            if (ModelState.IsValid)
             {
-                if (ModelState.IsValid)
+                if (_employeeRepository.EditEmployeeDetails(Id, EmployeeDetails))
                 {
-                    EmployeeRepository _DbEmployee = new EmployeeRepository();
-                    if (_DbEmployee.EditEmployeeDetails(Id, EmployeeDetails))
-                    {
-                        return RedirectToAction("Index");
-                    }
+                    return RedirectToAction("Index");
                 }
-                DepartmentRepository departmentRepository = new DepartmentRepository();
-                List<DepartmentEntity> departments = departmentRepository.GetAllDepartments();
-                ViewBag.Departments = new SelectList(departments, "Id", "Name", EmployeeDetails.DepartmentId);
-                return View(EmployeeDetails);
             }
-            catch
-            {
-                DepartmentRepository departmentRepository = new DepartmentRepository();
-                List<DepartmentEntity> departments = departmentRepository.GetAllDepartments();
-                ViewBag.Departments = new SelectList(departments, "Id", "Name", EmployeeDetails.DepartmentId);
-                return View(EmployeeDetails);
-            }
+
+            var departments = _departmentRepository.GetAllDepartments();
+            ViewBag.Departments = new SelectList(departments, "Id", "Name", EmployeeDetails.DepartmentId);
+            return View(EmployeeDetails);
         }
 
         [HttpGet]
         public ActionResult AddEmployee()
         {
-            DepartmentRepository DepartmentRepository = new DepartmentRepository();
-            List<DepartmentEntity> departments = DepartmentRepository.GetAllDepartments();
-
-            // Pass the department list to the view as a SelectList
+            var departments = _departmentRepository.GetAllDepartments();
             ViewBag.Departments = new SelectList(departments, "Id", "Name");
-
-            return View();  
+            return View();
         }
 
-
-        // POST: Employee/AddEmployee
         [HttpPost]
         public ActionResult AddEmployee(EmployeeEntity EmployeeDetails)
         {
-            try
+            if (ModelState.IsValid)
             {
-                if (ModelState.IsValid)
+                if (_employeeRepository.AddEmployee(EmployeeDetails))
                 {
-                    EmployeeRepository _DbEmployee = new EmployeeRepository();
-                    if (_DbEmployee.AddEmployee(EmployeeDetails))
-                    {
-                        return RedirectToAction("Index");
-                    }
+                    return RedirectToAction("Index");
                 }
-                DepartmentRepository DepartmentRepository = new DepartmentRepository();
-                List<DepartmentEntity> Departments = DepartmentRepository.GetAllDepartments();
-                ViewBag.Departments = new SelectList(Departments, "Id", "Name");
+            }
 
-                return View(EmployeeDetails);
-            }
-            catch
-            {
-                return View(EmployeeDetails);
-            }
+            var departments = _departmentRepository.GetAllDepartments();
+            ViewBag.Departments = new SelectList(departments, "Id", "Name");
+            return View(EmployeeDetails);
         }
 
         [HttpGet]
-        public ActionResult DeleteEmployee(int Id) 
+        public ActionResult DeleteEmployee(int Id)
         {
-            EmployeeEntity Employee = new EmployeeEntity();
+            var Employee = _employeeRepository.GetEmployeeById(Id);
+            var departments = _departmentRepository.GetAllDepartments();
 
-            EmployeeRepository EmployeeRepository = new EmployeeRepository();
-
-            Employee = EmployeeRepository.GetEmployeeById(Id);
-
-            DepartmentRepository DepartmentRepository = new DepartmentRepository();
-            List<DepartmentEntity> Departments = DepartmentRepository.GetAllDepartments();
-            ViewBag.Departments = new SelectList(Departments, "Id", "Name", Employee.DepartmentId);
-
+            ViewBag.Departments = new SelectList(departments, "Id", "Name", Employee.DepartmentId);
             return View("DeleteEmployee", Employee);
-      
         }
 
         [HttpPost]
         public IActionResult DeleteEmployeeDetails(int Id)
         {
-            try
+            if (ModelState.IsValid)
             {
-                if (ModelState.IsValid)
+                if (_employeeRepository.DeleteEmployeeDetails(Id))
                 {
-                    EmployeeRepository _DbEmployee = new EmployeeRepository();
-                    if (_DbEmployee.DeleteEmployeeDetails(Id))
-                    {
-                        return RedirectToAction("Index");
-                    }
+                    return RedirectToAction("Index");
                 }
+            }
 
-                return View("DeleteEmployee");
-            }
-            catch
-            {
-                return View("DeleteEmployee");
-            }
+            return View("DeleteEmployee");
         }
-
     }
 }

@@ -1,73 +1,74 @@
 ﻿using EmployeeM.Models;
-using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
+using System;
 using System.Data;
-using System.Data.Common;
 using System.Data.SqlClient;
-using System.Reflection;
+using Microsoft.Extensions.Configuration;
+
 namespace EmployeeM.Data
 {
     public class EmployeeRepository
     {
-        private SqlConnection _connection;
+        private readonly SqlConnection _connection;
 
         public EmployeeEntity EmployeeEntity { get; private set; }
 
-        public EmployeeRepository()
+        // Use DI to get IConfiguration
+        public EmployeeRepository(IConfiguration configuration)
         {
-            string connStr = "server=LAPTOP-NTBOS8PM\\SQLEXPRESS;database=EmployeeM;" +
-            "Integrated Security = true; TrustServerCertificate = True;";
+            string connStr = configuration.GetConnectionString("EmployeeM");
+
+            if (string.IsNullOrEmpty(connStr))
+            {
+                throw new InvalidOperationException("Database connection string 'EmployeeM' is not configured.");
+            }
 
             _connection = new SqlConnection(connStr);
         }
 
         public List<EmployeeEntity> GetAllEmployee()
         {
-            List<EmployeeEntity> EmployeeListEntity = new List<EmployeeEntity>();
+            var EmployeeListEntity = new List<EmployeeEntity>();
 
-            SqlCommand cmd = new SqlCommand("GetAllEmployee", _connection);
-            cmd.CommandType = System.Data.CommandType.StoredProcedure;
-
-            SqlDataAdapter dataAdapter = new SqlDataAdapter(cmd);
-
-            DataTable dt = new DataTable();
-
-            dataAdapter.Fill(dt);
-
-            foreach (DataRow dr in dt.Rows)
+            using (SqlCommand cmd = new SqlCommand("GetAllEmployee", _connection))
             {
-                ConvertDepartmentIdToName(EmployeeListEntity, dr);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                SqlDataAdapter dataAdapter = new SqlDataAdapter(cmd);
+                DataTable dt = new DataTable();
+                dataAdapter.Fill(dt);
+
+                foreach (DataRow dr in dt.Rows)
+                {
+                    ConvertDepartmentIdToName(EmployeeListEntity, dr);
+                }
             }
 
             return EmployeeListEntity;
-
-
         }
 
         public List<EmployeeEntity> GetEmployeeByDepartment(string userId)
         {
-            List<EmployeeEntity> EmployeeListEntity = new List<EmployeeEntity>();
+            var EmployeeListEntity = new List<EmployeeEntity>();
 
-            SqlCommand cmd = new SqlCommand("GetEmployeeByDepartment", _connection);
-            cmd.CommandType = System.Data.CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@UserId", userId);
-
-            SqlDataAdapter dataAdapter = new SqlDataAdapter(cmd);
-
-            DataTable dt = new DataTable();
-
-            dataAdapter.Fill(dt);
-
-            foreach (DataRow dr in dt.Rows)
+            using (SqlCommand cmd = new SqlCommand("GetEmployeeByDepartment", _connection))
             {
-                ConvertDepartmentIdToName(EmployeeListEntity, dr);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@UserId", userId);
+
+                SqlDataAdapter dataAdapter = new SqlDataAdapter(cmd);
+                DataTable dt = new DataTable();
+                dataAdapter.Fill(dt);
+
+                foreach (DataRow dr in dt.Rows)
+                {
+                    ConvertDepartmentIdToName(EmployeeListEntity, dr);
+                }
             }
 
-
             return EmployeeListEntity;
-
         }
 
-        void ConvertDepartmentIdToName(List<EmployeeEntity> EmployeeListEntity, DataRow dr)
+        private void ConvertDepartmentIdToName(List<EmployeeEntity> EmployeeListEntity, DataRow dr)
         {
             var EmployeeToReturn = new EmployeeEntity
             {
@@ -77,47 +78,38 @@ namespace EmployeeM.Data
                 Email = dr["Email"].ToString(),
                 Mobile = dr["Mobile"].ToString(),
                 DOB = Convert.ToDateTime(dr["DOB"]).ToString("yyyy-MM-dd"),
-                DepartmentId = Convert.ToInt32(dr["DepartmentId"])
-            };
-
-            EmployeeToReturn.Department = new DepartmentEntity
-            {
-                Name = GetDepartmentNameById(EmployeeToReturn.DepartmentId)
+                DepartmentId = Convert.ToInt32(dr["DepartmentId"]),
+                Department = new DepartmentEntity
+                {
+                    Name = GetDepartmentNameById(Convert.ToInt32(dr["DepartmentId"]))
+                }
             };
 
             EmployeeListEntity.Add(EmployeeToReturn);
-
         }
-    
-
 
         public string GetDepartmentNameById(int DepartmentId)
         {
             string DepartmentName = string.Empty;
 
-            SqlCommand cmd = new SqlCommand("GetDepartmentNameById", _connection);
-            cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@DepartmentId", DepartmentId);
-
-            if (_connection.State != ConnectionState.Open)
+            using (SqlCommand cmd = new SqlCommand("GetDepartmentNameById", _connection))
             {
-                _connection.Open();
-            }
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@DepartmentId", DepartmentId);
 
-            object result = cmd.ExecuteScalar();  
+                if (_connection.State != ConnectionState.Open)
+                {
+                    _connection.Open();
+                }
 
-            if (result != null)
-            {
-                DepartmentName = result.ToString();
-            }
-            else
-            {
-                DepartmentName = string.Empty;
+                object result = cmd.ExecuteScalar();
+                DepartmentName = result?.ToString() ?? string.Empty;
+
+                _connection.Close();
             }
 
             return DepartmentName;
         }
-
 
 
         public List<EmployeeEntity> GetEmployeeByFilter(string SearchString)

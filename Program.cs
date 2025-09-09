@@ -15,12 +15,14 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>() // UseEmployeeMIdentityDbContext for Identity
     .AddDefaultTokenProviders();
 
+builder.Services.AddScoped<EmployeeRepository>();
 builder.Services.AddScoped<DepartmentRepository>();
 builder.Services.AddScoped<DepartmentUserRepository>();
 builder.Services.AddScoped<ThemeRepository>();
 builder.Services.AddScoped<ThemeController>();
 builder.Services.AddScoped<ThemeEntity>();
 builder.Services.AddHttpContextAccessor();
+
 
 
 builder.Services.Configure<IdentityOptions>(options =>
