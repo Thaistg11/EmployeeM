@@ -10,14 +10,19 @@ namespace EmployeeM.Data
     public class ThemeRepository
     {
         private readonly SqlConnection _connection;
-        
-        public ThemeRepository()
+
+        public ThemeRepository(IConfiguration configuration)
         {
-            // Initialize the database connection
-            string connStr = "server=LAPTOP-NTBOS8PM\\SQLEXPRESS;database=EmployeeM;Integrated Security=true;TrustServerCertificate=true;";
+            // Read from appsettings.json or Azure App Service connection strings
+            string connStr = configuration.GetConnectionString("EmployeeM");
+
+            if (string.IsNullOrEmpty(connStr))
+            {
+                throw new InvalidOperationException("Database connection string 'EmployeeM' is not configured.");
+            }
+
             _connection = new SqlConnection(connStr);
         }
-
         public ThemeEntity GetTheme(string userId)
         {
             ThemeEntity themeEntity = null;

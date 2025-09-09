@@ -59,39 +59,35 @@ namespace EmployeeM.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    var themeRepository = new ThemeRepository();
-
+                    bool result;
                     if (theme == null)
                     {
-                        Console.WriteLine("Condition is true");
-                        // Theme is empty: call the Create function
-                        themeRepository.CreateDepartmentTheme(ThemeFromTheView, userId);
-                        {
-                            // Retrieve the new theme just created
-                            var themeUpdated = _themeRepository.GetTheme(userId);
-                            return View("Index", themeUpdated);
-                        }
+                        // Create new
+                        result = _themeRepository.CreateDepartmentTheme(ThemeFromTheView, userId);
                     }
                     else
                     {
-                        Console.WriteLine("Condition is not  true 123");
-                        // Theme exists: call the Update function
-                        themeRepository.UpdateDepartmentTheme(ThemeFromTheView);
+                        // Update existing
+                        ThemeFromTheView.Id = theme.Id; // Make sure the ID is set
+                        result = _themeRepository.UpdateDepartmentTheme(ThemeFromTheView);
+                    }
 
-                        // Retrieve the new theme if updated values
-                        var themeUpdated = _themeRepository.GetTheme(userId);
-                            return View("Index", themeUpdated);
-
+                    if (result)
+                    {
+                        TempData["SuccessMessage"] = "Theme saved successfully!";
+                    }
+                    else
+                    {
+                        TempData["ErrorMessage"] = "Failed to save theme.";
                     }
                 }
-                return View("Index-error");
             }
             catch (Exception ex)
             {
-                // Log the exception
-                Console.WriteLine(ex);
-                return View("Index-error-catch");
+                TempData["ErrorMessage"] = $"Error: {ex.Message}";
             }
+
+            return RedirectToAction("GetTheme");
         }
 
         [HttpGet]
