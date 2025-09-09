@@ -6,18 +6,19 @@ namespace EmployeeM.Controllers
 {
     public class DepartmentController : Controller
     {
+        private readonly DepartmentRepository _departmentRepository;
+
+        // Constructor injection
+        public DepartmentController(DepartmentRepository departmentRepository)
+        {
+            _departmentRepository = departmentRepository;
+        }
+
         [HttpGet]
         public IActionResult Index()
         {
-            List<DepartmentEntity> Departments = new List<DepartmentEntity>();
-
-            DepartmentRepository DepartmentRepository = new DepartmentRepository();
-            {
-
-                Departments = DepartmentRepository.GetAllDepartments();
-            }
-
-            return View(Departments);
+            var departments = _departmentRepository.GetAllDepartments();
+            return View(departments);
         }
     }
 }

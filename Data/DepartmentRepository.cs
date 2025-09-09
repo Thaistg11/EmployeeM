@@ -1,34 +1,30 @@
 ﻿using EmployeeM.Models;
 using System.Data;
-using System.Data.Common;
 using System.Data.SqlClient;
-using System.Reflection;
+using Microsoft.Extensions.Configuration;
+
 namespace EmployeeM.Data
 {
     public class DepartmentRepository
     {
-        private SqlConnection _connection;
+        private readonly SqlConnection _connection; 
 
-        public DepartmentEntity DepartmentEntity { get; private set; }
-
-        public DepartmentRepository()
+        public DepartmentRepository(IConfiguration configuration)
         {
-            string connStr = "server=LAPTOP-NTBOS8PM\\SQLEXPRESS;database=EmployeeM;" +
-            "Integrated Security = true; TrustServerCertificate = True;";
-
+            // Get the connection string from appsettings.json
+            string connStr = configuration.GetConnectionString("EmployeeM");
             _connection = new SqlConnection(connStr);
         }
+
         public List<DepartmentEntity> GetAllDepartments()
         {
             List<DepartmentEntity> DepartmentListEntity = new List<DepartmentEntity>();
 
             SqlCommand cmd = new SqlCommand("GetAllDepartments", _connection);
-            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.CommandType = CommandType.StoredProcedure;
 
             SqlDataAdapter dataAdapter = new SqlDataAdapter(cmd);
-           
             DataTable dt = new DataTable();
-
 
             dataAdapter.Fill(dt);
 
@@ -38,16 +34,16 @@ namespace EmployeeM.Data
             }
 
             return DepartmentListEntity;
+        }
 
-            static void AddDepartmentToList(List<DepartmentEntity> DepartmentListEntity, DataRow dr)
-            {
-                DepartmentListEntity.Add(
-                    new DepartmentEntity
-                    {
-                        Id = Convert.ToInt32(dr["Id"]),
-                        Name = dr["Name"].ToString(),
-                    });
-            }
-                }
+        private static void AddDepartmentToList(List<DepartmentEntity> DepartmentListEntity, DataRow dr)
+        {
+            DepartmentListEntity.Add(
+                new DepartmentEntity
+                {
+                    Id = Convert.ToInt32(dr["Id"]),
+                    Name = dr["Name"].ToString(),
+                });
+        }
     }
 }

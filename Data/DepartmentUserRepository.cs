@@ -1,45 +1,39 @@
 ﻿using EmployeeM.Models;
 using System.Data;
 using System.Data.SqlClient;
-
+using Microsoft.Extensions.Configuration;
 
 namespace EmployeeM.Data
 {
     public class DepartmentUserRepository
     {
-        private SqlConnection _connection;
+        private readonly SqlConnection _connection;
 
-        public DepartmentUserRepository()
+        // Accept IConfiguration via constructor
+        public DepartmentUserRepository(IConfiguration configuration)
         {
-            string coonStr = "server=LAPTOP-NTBOS8PM\\SQLEXPRESS;database=EmployeeM;Integrated Security=true;TrustServerCertificate=true;";
-
-            _connection = new SqlConnection(coonStr);
+            // Get connection string from appsettings.json
+            string connStr = configuration.GetConnectionString("EmployeeM");
+            _connection = new SqlConnection(connStr);
         }
 
         public bool AddDepartmentUser(string userId, int departmentId)
         {
             SqlCommand cmd = new SqlCommand("AddDepartmentUser", _connection);
-            cmd.CommandType = System.Data.CommandType.StoredProcedure;
-
+            cmd.CommandType = CommandType.StoredProcedure;
 
             cmd.Parameters.AddWithValue("@UserId", userId);
             cmd.Parameters.AddWithValue("@DepartmentId", departmentId);
 
-            _connection.Open();
+            if (_connection.State != ConnectionState.Open)
+            {
+                _connection.Open();
+            }
 
             int i = cmd.ExecuteNonQuery();
             _connection.Close();
 
-            if (i > 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return i > 0;
         }
-
-
     }
 }
