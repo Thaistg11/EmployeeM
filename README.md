@@ -26,7 +26,7 @@ To access admin, [click here](https://employeem-webapp-avbebrcqfxd8dbhc.uksouth-
 9. [Future Improvements](#future-improvements)  
 10. [Deployment / Live Demo](#deployment--live-demo)  
 11. [Screenshots](#screenshots)  
-12. [Credits](#credits)  
+  
 
 ---
 
