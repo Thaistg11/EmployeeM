@@ -243,6 +243,11 @@ Planned improvements for future releases include:
 
 These enhancements will make the system not only **powerful in functionality** but also **intuitive and enjoyable to use**.  
 
+
+---
+## Author
+Thais Guide
+
 ---
 
 ## Deployment / Live Demo
@@ -251,11 +256,5 @@ The **EmployeeM** web application is deployed and accessible online:
 
 🌐 [EmployeeM Live Demo](https://employeem-webapp-avbebrcqfxd8dbhc.uksouth-01.azurewebsites.net/)  
 
-To run locally:  
-```bash
-git clone https://github.com/Thaistg11/EmployeeM.git
 
-
----
-## Author
-Thais Guide  
+  
