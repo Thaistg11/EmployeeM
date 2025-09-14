@@ -97,7 +97,6 @@ The project follows the **MVC architecture**:
 - **Git** – Version control system for committing and pushing code  
 - **GitHub** – Repository hosting for the project and branches  
 - **Gitpod** – Web-based IDE used for coding and testing  
-- **Balsamiq Wireframes** – Created wireframe images of the website (viewable [here](#))  
 
 ---
 
