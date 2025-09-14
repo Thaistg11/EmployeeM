@@ -25,7 +25,8 @@ To access admin, [click here](https://employeem-webapp-avbebrcqfxd8dbhc.uksouth-
 8. [Testing](#testing)  
 9. [Future Improvements](#future-improvements)  
 10. [Deployment / Live Demo](#deployment--live-demo)  
-11. [Screenshots](#screenshots)  
+11. [Screenshots](#screenshots)
+12.  [Author](#author)  
   
 
 ---
@@ -248,3 +249,8 @@ The **EmployeeM** web application is deployed and accessible online:
 To run locally:  
 ```bash
 git clone https://github.com/Thaistg11/EmployeeM.git
+
+
+---
+## Author
+Thais Guide  
