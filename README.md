@@ -1,6 +1,6 @@
 # EmployeeM
 
-**EmployeeM** is a web-based system developed with **ASP.NET MVC** and **ADO.NET** for efficient employee management. The application includes **role-based access control**, **department-specific theme customization**, and secure authentication to streamline administrative tasks while ensuring data integrity and usability.  
+**EmployeeM** is a web-based system developed with ASP.NET MVC and ADO.NET for efficient employee management. The application includes role-based access control, department-specific theme customization, and secure authentication to streamline administrative tasks while ensuring data integrity and usability.  
 
 [Click here](https://employeem-webapp-avbebrcqfxd8dbhc.uksouth-01.azurewebsites.net/) to visit the deployed site.
 
