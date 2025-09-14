@@ -225,17 +225,23 @@ The following tests were conducted to verify EmployeeM’s functionalities:
 
 ## Future Improvements
 
-While **EmployeeM** provides full functionality for employee management, role-based access, and department theme customization, it’s important to note that the application **did not focus extensively on user experience (UX) design**.  
+While **EmployeeM** provides full functionality for employee management, role-based access, and department theme customization, it’s important to note that the **main focus of this project has been the backend and database layer**.  
 
-Planned improvements include:  
+The application prioritizes:  
+- Secure authentication and authorization  
+- Role-based data access  
+- Efficient database operations with ADO.NET  
+- Scalable and maintainable backend architecture  
 
-- Enhancing the **user interface** with more intuitive navigation and visually appealing layouts.  
-- Improving **mobile and tablet usability** with advanced responsive designs.  
-- Adding **interactive feedback** for user actions (e.g., confirmations, alerts, and notifications).  
-- Streamlining **theme customization** to make it more user-friendly.  
-- Implementing **advanced search and filtering** options for quicker data access.  
+As a result, the **frontend and overall user experience (UX/UI)** were not the primary focus in this version.  
 
-These enhancements are part of future development plans to improve **usability, accessibility, and overall user satisfaction**.  
+Planned improvements for future releases include:  
+- A more modern and user-friendly interface  
+- Improved navigation and visual design   
+- Interactive elements and better accessibility support  
+- Streamlined theme customization options  
+
+These enhancements will make the system not only **powerful in functionality** but also **intuitive and enjoyable to use**.  
 
 ---
 
