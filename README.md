@@ -217,23 +217,6 @@ The following tests were conducted to verify EmployeeM’s functionalities:
 
 ---
 
-### Test 7: Mobile Responsiveness
-*"I would like to access the system on different devices"*
-
-**Actions:**  
-- Open EmployeeM on mobile, tablet, and desktop  
-- Check layout and usability  
-
-**View image of the steps:**  
-![Responsive Step](link-to-your-screenshot7)  
-
-**Expected result:** Interface adapts to all screen sizes and remains functional.  
-**Actual result:** Works as intended.  
-
-> ⚠️ Replace `link-to-your-screenshotX` with actual GitHub-hosted images or URLs of your screenshots.  
-
----
-
 ## Future Improvements
 
 While **EmployeeM** provides full functionality for employee management, role-based access, and department theme customization, it’s important to note that the **main focus of this project has been the backend and database layer**.  
