@@ -2,6 +2,10 @@
 
 **EmployeeM** is a web-based system developed with ASP.NET MVC and ADO.NET for efficient employee management. The application includes role-based access control, department-specific theme customization, and secure authentication to streamline administrative tasks while ensuring data integrity and usability.  
 
+
+![Alt text](https://github.com/Thaistg11/EmployeeM/blob/d2b3b9da77bea692704c2079d670c8b9f9485911/HomePageScreenshot.png?raw=true)
+
+
 [Click here](https://employeem-webapp-avbebrcqfxd8dbhc.uksouth-01.azurewebsites.net/) to visit the deployed site.
 
 To access admin, [click here](https://employeem-webapp-avbebrcqfxd8dbhc.uksouth-01.azurewebsites.net/)  
@@ -121,7 +125,7 @@ The following tests were conducted to verify EmployeeM’s functionalities:
 - Employee details are displayed dynamically on the page  
 
 **View image of the steps:**  
-![Initial Step](link-to-your-screenshot1)  
+![Employee List]( https://raw.githubusercontent.com/Thaistg11/EmployeeM/d2b3b9da77bea692704c2079d670c8b9f9485911/EmployeeListScreenshot.png)
 
 **Expected result:** Employee details are displayed correctly.  
 **Actual result:** Works as intended.  
@@ -138,7 +142,7 @@ The following tests were conducted to verify EmployeeM’s functionalities:
 - Validation checks ensure data is correct  
 
 **View image of the steps:**  
-![Edit Employee Step](link-to-your-screenshot2)  
+![Description of image](https://raw.githubusercontent.com/Thaistg11/EmployeeM/d2b3b9da77bea692704c2079d670c8b9f9485911/Screenshot%202025-09-21%20002434.png)
 
 **Expected result:** Employee information is updated in the database.  
 **Actual result:** Works as intended.  
@@ -153,7 +157,11 @@ The following tests were conducted to verify EmployeeM’s functionalities:
 - Try accessing employees from other departments  
 
 **View image of the steps:**  
-![Role Test Step](link-to-your-screenshot3)  
+
+
+ 
+![Employee List](https://raw.githubusercontent.com/Thaistg11/EmployeeM/d2b3b9da77bea692704c2079d670c8b9f9485911/EmployeeListItScreenshot.png)
+ 
 
 **Expected result:** Access denied to other department’s data.  
 **Actual result:** Works as intended.  
@@ -169,7 +177,9 @@ The following tests were conducted to verify EmployeeM’s functionalities:
 - Saves changes  
 
 **View image of the steps:**  
-![Theme Step](link-to-your-screenshot4)  
+![Different Theme Screenshot](https://raw.githubusercontent.com/Thaistg11/EmployeeM/d2b3b9da77bea692704c2079d670c8b9f9485911/DifferentThemeScreenshot.png)
+
+  
 
 **Expected result:** Theme is applied dynamically across all pages.  
 **Actual result:** Works as intended.  
@@ -184,7 +194,7 @@ The following tests were conducted to verify EmployeeM’s functionalities:
 - Clicks “Search” or filters results  
 
 **View image of the steps:**  
-![Search Step](link-to-your-screenshot5)  
+![Search Step](https://raw.githubusercontent.com/Thaistg11/EmployeeM/d2b3b9da77bea692704c2079d670c8b9f9485911/SearchBarScreenshot.png) 
 
 **Expected result:** Only relevant employees are displayed.  
 **Actual result:** Works as intended.  
@@ -199,7 +209,8 @@ The following tests were conducted to verify EmployeeM’s functionalities:
 - Clicks “Login”  
 
 **View image of the steps:**  
-![Login Step](link-to-your-screenshot6)  
+![Login Screenshot](https://raw.githubusercontent.com/Thaistg11/EmployeeM/d2b3b9da77bea692704c2079d670c8b9f9485911/LoginScreenshot.png)
+  
 
 **Expected result:** User is redirected to the homepage with proper role-based access.  
 **Actual result:** Works as intended.  
